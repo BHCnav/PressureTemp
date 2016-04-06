@@ -68,13 +68,14 @@ public class MainActivity extends Activity {
 		@Override
 		public void onSensorChanged(SensorEvent event) {
 
-			System.out.println("zsj_Barometertest:" + "temp_onSensorChanged");
+			System.out.println("zsj_Barometertest:" + "temp_onSensorChanged:"
+					+ event.values[0] + event.values[1] + event.values[2]);
 			float temperatureValue = event.values[0];
 			BigDecimal bd = new BigDecimal(temperatureValue);
 			double temperature = bd.setScale(2, BigDecimal.ROUND_HALF_UP)
 					.doubleValue();
 			// Log.i("Sensor", "sensor changed==>" + millibars_of_pressure);
-			tv_temperature.setText(temperature + "¡æ");
+			tv_temperature.setText(temperature + "¡ãC");
 
 		}
 

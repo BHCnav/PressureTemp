@@ -34,7 +34,7 @@
                     android:drawableLeft="@drawable/icon_barometer"
                     android:drawablePadding="5dp"
                     android:gravity="center_vertical"
-                    android:text="气压"
+                    android:text="@string/pressure"
                     android:textColor="@color/gray"
                     android:textSize="20sp" />
 
@@ -44,7 +44,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="气压值"
+                    android:text="@string/pressure"
                     android:textSize="30sp" />
 
                 <TextView
@@ -70,7 +70,7 @@
                     android:drawableLeft="@drawable/icon_humidity"
                     android:drawablePadding="5dp"
                     android:gravity="center_vertical"
-                    android:text="海拔高度"
+                    android:text="@string/altitude"
                     android:textColor="@color/gray"
                     android:textSize="20sp" />
 
@@ -80,7 +80,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="海拔高度"
+                    android:text="@string/altitude"
                     android:textSize="30sp" />
 
                 <TextView
@@ -106,7 +106,7 @@
                     android:drawableLeft="@drawable/icon_temperature"
                     android:drawablePadding="5dp"
                     android:gravity="center_vertical"
-                    android:text="温度"
+                    android:text="@string/temp"
                     android:textColor="@color/gray"
                     android:textSize="20sp" />
 
@@ -116,7 +116,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="温度值"
+                    android:text="@string/temp"
                     android:textSize="30sp" />
             </LinearLayout>
         </RelativeLayout>
