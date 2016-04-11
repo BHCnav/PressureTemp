@@ -5,23 +5,40 @@ import java.text.DecimalFormat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
 	private TextView tv_temperature;
 	private TextView tv_pressure;
+
 	private TextView tv_humitity;
 
 	private SensorManager mSensorManager;
 	private Sensor mSensor;
 	private Sensor mSensor_Temperature;// zsj1130
+
+	private volatile int isCalibrating = 0;
+	private volatile float pressureCalDelata = (float) 0.0; // Calibration
+	private volatile double temperatureCalDelata = 0.0; // Calibration
+
+	private volatile float currentPressure;
+	private volatile double currentTemp;
+	static final int GET_CAL_DATA = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +48,41 @@ public class MainActivity extends Activity {
 		initData();
 		initView();
 		initEvent();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+
+		// menu.add(0, Menu.FIRST, 0, R.string.calibrate);
+		MenuInflater menuInflater = getMenuInflater();
+		menuInflater.inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+		case R.id.menu_calibrate:
+			isCalibrating = 1;
+			Intent intent = new Intent(MainActivity.this,
+					CalibrateActivity.class);
+			intent.putExtra("currentPressure", currentPressure);
+			intent.putExtra("pressureCalDelata", pressureCalDelata);
+			Log.d("Temp", "currentTemp:" + currentTemp);
+			intent.putExtra("currentTemp", currentTemp);
+			intent.putExtra("temperatureCalDelata", temperatureCalDelata);
+
+			this.startActivityForResult(intent, GET_CAL_DATA);
+			// Toast.makeText(this, "Calibarate", Toast.LENGTH_LONG).show();
+			break;
+
+		default:
+			break;
+		}
+
+		return super.onMenuItemSelected(featureId, item);
 	}
 
 	private void initEvent() {
@@ -56,7 +108,36 @@ public class MainActivity extends Activity {
 
 	private void initData() {
 		// TODO Auto-generated method stub
+		// Intent intent = new Intent();
 
+		// / intent.setClass(A.this,B.class);
+
+		// intent.putExtra("pressure",);
+		// intent.putExtra("userpwd1"userpwd);
+
+		// this.startActivity(intent);
+	}
+
+	private void tempValueFormat(double tempValue) {
+		BigDecimal bd = new BigDecimal(tempValue);
+		double temperature = bd.setScale(2, BigDecimal.ROUND_HALF_UP)
+				.doubleValue();
+		// Log.i("Sensor", "sensor changed==>" + millibars_of_pressure);
+		tv_temperature.setText(Double.toString(temperature));
+		currentTemp = temperature;
+	}
+
+	private void pressureValueFromat(float pressureValue) {
+		tv_pressure.setText(Float.toString(pressureValue));
+		currentPressure = pressureValue;
+		// float sPV = event.values[0];
+		DecimalFormat df = new DecimalFormat("0.00");
+		df.getRoundingMode();
+		//
+		double height = 44330000 * (1 - (Math.pow((Double.parseDouble(df
+				.format(pressureValue + pressureCalDelata)) / 101325),
+				(float) 1.0 / 5255.0)));
+		tv_humitity.setText(df.format(height));
 	}
 
 	private final SensorEventListener sensorEventListener_temp = new SensorEventListener() {
@@ -68,14 +149,16 @@ public class MainActivity extends Activity {
 		@Override
 		public void onSensorChanged(SensorEvent event) {
 
-			System.out.println("zsj_Barometertest:" + "temp_onSensorChanged:"
-					+ event.values[0] + event.values[1] + event.values[2]);
-			float temperatureValue = event.values[0];
-			BigDecimal bd = new BigDecimal(temperatureValue);
-			double temperature = bd.setScale(2, BigDecimal.ROUND_HALF_UP)
-					.doubleValue();
-			// Log.i("Sensor", "sensor changed==>" + millibars_of_pressure);
-			tv_temperature.setText(temperature + "¡ãC");
+			if (isCalibrating == 0) {
+				System.out.println("zsj_Barometertest:"
+						+ "temp_onSensorChanged:" + event.values[0]
+						+ event.values[1] + event.values[2]
+						+ "temperatureCalDelata" + temperatureCalDelata);
+				float temperatureValue = event.values[0];
+
+				tempValueFormat(temperatureValue + temperatureCalDelata);
+
+			}
 
 		}
 
@@ -89,26 +172,25 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onSensorChanged(SensorEvent event) {
-			float value = event.values[0];
-			String promt = String.valueOf(value);
-			int length = promt.split("\\.")[0].length();
-			if (length == 4) {
-				promt += "HPa";
-			} else if (length == 3) {
-				promt += "KPa";
-			} else if (length > 4) {
-				promt += "Pa";
-			}
-			tv_pressure.setText(promt);
 
-			float sPV = event.values[0];
-			DecimalFormat df = new DecimalFormat("0.00");
-			df.getRoundingMode();
-			// ¼ÆËãº£°Î
-			double height = 44330000 * (1 - (Math.pow(
-					(Double.parseDouble(df.format(sPV)) / 1013.25),
-					(float) 1.0 / 5255.0)));
-			tv_humitity.setText(df.format(height) + "m");
+			if (isCalibrating == 0) {
+				float value = event.values[0];
+				String promt = String.valueOf(value);
+				int length = promt.split("\\.")[0].length();
+				if (length == 4) {
+					// promt += "HPa";
+					value = (float) (value * 100.0);
+				} else if (length == 3) {
+					// promt += "KPa";
+					value = (float) (value * 1000.0);
+				} else if (length > 4) {
+					// promt += "Pa";
+				}
+
+				pressureValueFromat(value + pressureCalDelata);
+
+			}
+
 		}
 	};
 
@@ -120,4 +202,29 @@ public class MainActivity extends Activity {
 		super.finish();
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		// super.onActivityResult(requestCode, resultCode, data);
+
+		// Log.e("onActivityResult", "requestCode" + requestCode + ":"
+		// + "resultCode" + resultCode + ":");
+		switch (resultCode) {
+		case GET_CAL_DATA:
+			Bundle bundle = data.getExtras();
+			pressureCalDelata = bundle.getFloat("PressureCalDelata");
+			temperatureCalDelata = bundle.getDouble("TemperatureCalDelata");
+
+			tempValueFormat(currentTemp + temperatureCalDelata);
+			pressureValueFromat(currentPressure + pressureCalDelata);
+			// Log.e("onActivityResult", "temperatureCalDelata:"
+			// + temperatureCalDelata);
+			isCalibrating = 0;
+			break;
+
+		default:
+			break;
+		}
+
+	}
 }

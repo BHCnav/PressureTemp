@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">PressureTemp</string>
+    <string name="app_name">Pressure</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="temp">Temperature</string>
     <string name="altitude">Altitude</string>
     <string name="pressure">Pressure</string>
+    <string name="please_insert_actual_value">please input actual pressure value(Pa)</string>
+    <string name="please_input_actual_temperature_value">please input actual temperature value(°C)</string>
+    <string name="title_activity_calibrate">CalibrateActivity</string>
+    <string name="calibrate">Calibrate</string>
+    <string name="cancle">Cancle</string>
+    <string name="please_input_current_pressure">Please input current pressure</string>
+    <string name="please_input_current_temperature">Please input current temperature</string>
 
 </resources>
