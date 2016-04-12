@@ -174,20 +174,21 @@ public class MainActivity extends Activity {
 		public void onSensorChanged(SensorEvent event) {
 
 			if (isCalibrating == 0) {
+				Log.e("onSensorChanged", "onSensorChanged:" + event.values[0]);
 				float value = event.values[0];
-				String promt = String.valueOf(value);
-				int length = promt.split("\\.")[0].length();
-				if (length == 4) {
+			//	String promt = String.valueOf(value);
+				//int length = promt.split("\\.")[0].length();
+				//if (length == 4) {
 					// promt += "HPa";
-					value = (float) (value * 100.0);
-				} else if (length == 3) {
+				//	value = (float) (value * 100.0);
+				//} else if (length == 3) {
 					// promt += "KPa";
-					value = (float) (value * 1000.0);
-				} else if (length > 4) {
+				//	value = (float) (value * 1000.0);
+				//} else if (length > 4) {
 					// promt += "Pa";
-				}
+				//}
 
-				pressureValueFromat(value + pressureCalDelata);
+				pressureValueFromat(value*100 + pressureCalDelata);
 
 			}
 
