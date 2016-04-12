@@ -174,7 +174,7 @@ public class MainActivity extends Activity {
 		public void onSensorChanged(SensorEvent event) {
 
 			if (isCalibrating == 0) {
-				Log.e("onSensorChanged", "onSensorChanged:" + event.values[0]);
+			//	Log.e("onSensorChanged", "onSensorChanged:" + event.values[0]);
 				float value = event.values[0];
 			//	String promt = String.valueOf(value);
 				//int length = promt.split("\\.")[0].length();
