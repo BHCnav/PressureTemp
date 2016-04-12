@@ -14,5 +14,7 @@
     <string name="cancle">Cancle</string>
     <string name="please_input_current_pressure">Please input current pressure</string>
     <string name="please_input_current_temperature">Please input current temperature</string>
+    <string name="TempValueAlert">Input number between -273 ~ 273</string>
+    <string name="PressureValueAlert">Input number between 0 ~ 190000</string>
 
 </resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">气压温度计</string>
+    <string name="action_settings">Settings</string>
+    <string name="temp">温度</string>
+    <string name="tempdata">温度值</string>
+    <string name="altitude">气压高度</string>
+    <string name="pressure">气压</string>
+    <string name="please_insert_actual_value">请输入实际气压值(Pa)</string>
+    <string name="please_input_actual_temperature_value">请输入实际温度值(°C)</string>
+    <string name="calibrate">校准</string>
+    <string name="cancle">取消</string>
+    <string name="please_input_current_pressure">请输入当前气压值</string>
+    <string name="please_input_current_temperature">请输入当前温度值</string>
+    <string name="TempValueAlert">输入值在 -273 ~ 273之间</string>
+    <string name="PressureValueAlert">输入值在 0 ~ 190000之间</string>
+
+</resources>
