@@ -17,9 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -88,15 +86,35 @@ public class MainActivity extends Activity {
 	private void initEvent() {
 		// TODO Auto-generated method stub
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+		if (mSensorManager == null) {
+
+			Log.e("Pressure", "mSensorManager is null");
+		} else {
+			Log.e("Pressure", "mSensorManager is :" + mSensorManager);
+		}
 		mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+
+		if (mSensor == null) {
+
+			Log.e("Pressure", "mSensor is null");
+		} else {
+			Log.e("Pressure", "mSensor is :" + mSensor);
+		}
 
 		mSensor_Temperature = mSensorManager
 				.getDefaultSensor(Sensor.TYPE_TEMPERATURE);// zsj1130
 
+		if (mSensor_Temperature == null) {
+
+			Log.e("Pressure", "	mSensor_Temperature is null");
+		} else {
+			Log.e("Pressure", "mSensor_Temperature is :" + mSensor_Temperature);
+		}
 		mSensorManager.registerListener(sensorEventListener, mSensor,
-				SensorManager.SENSOR_DELAY_NORMAL);
+				1000000);
 		mSensorManager.registerListener(sensorEventListener_temp,
-				mSensor_Temperature, SensorManager.SENSOR_DELAY_NORMAL);
+				mSensor_Temperature, 1000000);
 	}
 
 	private void initView() {
@@ -124,12 +142,12 @@ public class MainActivity extends Activity {
 				.doubleValue();
 		// Log.i("Sensor", "sensor changed==>" + millibars_of_pressure);
 		tv_temperature.setText(Double.toString(temperature));
-		currentTemp = temperature;
+		// currentTemp = temperature;
 	}
 
 	private void pressureValueFromat(float pressureValue) {
 		tv_pressure.setText(Float.toString(pressureValue));
-		currentPressure = pressureValue;
+		// currentPressure = pressureValue;
 		// float sPV = event.values[0];
 		DecimalFormat df = new DecimalFormat("0.00");
 		df.getRoundingMode();
@@ -157,7 +175,11 @@ public class MainActivity extends Activity {
 				float temperatureValue = event.values[0];
 
 				tempValueFormat(temperatureValue + temperatureCalDelata);
+				BigDecimal bd = new BigDecimal(temperatureValue);
+				double temperature = bd.setScale(2, BigDecimal.ROUND_HALF_UP)
+						.doubleValue();
 
+				currentTemp = temperature;
 			}
 
 		}
@@ -174,21 +196,22 @@ public class MainActivity extends Activity {
 		public void onSensorChanged(SensorEvent event) {
 
 			if (isCalibrating == 0) {
-			//	Log.e("onSensorChanged", "onSensorChanged:" + event.values[0]);
+				// Log.e("onSensorChanged", "onSensorChanged:" +
+				// event.values[0]);
 				float value = event.values[0];
-			//	String promt = String.valueOf(value);
-				//int length = promt.split("\\.")[0].length();
-				//if (length == 4) {
-					// promt += "HPa";
-				//	value = (float) (value * 100.0);
-				//} else if (length == 3) {
-					// promt += "KPa";
-				//	value = (float) (value * 1000.0);
-				//} else if (length > 4) {
-					// promt += "Pa";
-				//}
-
-				pressureValueFromat(value*100 + pressureCalDelata);
+				// String promt = String.valueOf(value);
+				// int length = promt.split("\\.")[0].length();
+				// if (length == 4) {
+				// promt += "HPa";
+				// value = (float) (value * 100.0);
+				// } else if (length == 3) {
+				// promt += "KPa";
+				// value = (float) (value * 1000.0);
+				// } else if (length > 4) {
+				// promt += "Pa";
+				// }
+				currentPressure = value * 100;
+				pressureValueFromat(value * 100 + pressureCalDelata);
 
 			}
 
@@ -208,18 +231,26 @@ public class MainActivity extends Activity {
 		// TODO Auto-generated method stub
 		// super.onActivityResult(requestCode, resultCode, data);
 
-		// Log.e("onActivityResult", "requestCode" + requestCode + ":"
-		// + "resultCode" + resultCode + ":");
+		 Log.e("onActivityResult", "requestCode" + requestCode + ":"
+		 + "resultCode" + resultCode + ":");
 		switch (resultCode) {
 		case GET_CAL_DATA:
 			Bundle bundle = data.getExtras();
 			pressureCalDelata = bundle.getFloat("PressureCalDelata");
 			temperatureCalDelata = bundle.getDouble("TemperatureCalDelata");
+			// Log.e("onActivityResult", "temperatureCalDelata:"
+			// + temperatureCalDelata + "currentTemp:" + currentTemp);
+
+			// Log.e("onActivityResult", "pressureCalDelata:" +
+			// pressureCalDelata
+			// + "currentPressure:" + currentPressure);
 
 			tempValueFormat(currentTemp + temperatureCalDelata);
 			pressureValueFromat(currentPressure + pressureCalDelata);
-			// Log.e("onActivityResult", "temperatureCalDelata:"
-			// + temperatureCalDelata);
+
+			isCalibrating = 0;
+			
+		case RESULT_CANCELED:
 			isCalibrating = 0;
 			break;
 

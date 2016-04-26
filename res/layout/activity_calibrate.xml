@@ -37,7 +37,7 @@
             android:drawableRight="@drawable/pa48"
             android:ems="10"
             android:gravity="center"
-            android:inputType="numberSigned"
+            android:inputType="numberDecimal"
             android:textSize="20sp" />
 
         <TextView
@@ -60,7 +60,7 @@
             android:drawableRight="@drawable/temp48"
             android:ems="10"
             android:gravity="center"
-            android:inputType="numberSigned"
+            android:inputType="numberDecimal"
             android:textSize="20sp" />
 
         <RelativeLayout

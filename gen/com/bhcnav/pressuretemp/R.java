@@ -464,14 +464,18 @@ public final class R {
     }
     public static final class drawable {
         public static final int altitude48=0x7f020000;
-        public static final int drawer_noitem_bg=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int icon_barometer=0x7f020003;
-        public static final int icon_humidity=0x7f020004;
-        public static final int icon_temperature=0x7f020005;
-        public static final int main_header=0x7f020006;
-        public static final int pa48=0x7f020007;
-        public static final int temp48=0x7f020008;
+        public static final int button=0x7f020001;
+        public static final int drawer_noitem_bg=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int icon_barometer=0x7f020004;
+        public static final int icon_humidity=0x7f020005;
+        public static final int icon_temperature=0x7f020006;
+        public static final int main_header=0x7f020007;
+        public static final int new2=0x7f020008;
+        public static final int new4=0x7f020009;
+        public static final int pa48=0x7f02000a;
+        public static final int style_button=0x7f02000b;
+        public static final int temp48=0x7f02000c;
     }
     public static final class id {
         public static final int action_settings=0x7f090006;
@@ -492,6 +496,8 @@ public final class R {
         public static final int main=0x7f080001;
     }
     public static final class string {
+        public static final int PressureValueAlert=0x7f06000e;
+        public static final int TempValueAlert=0x7f06000d;
         public static final int action_settings=0x7f060002;
         public static final int altitude=0x7f060004;
         public static final int app_name=0x7f060000;
@@ -504,7 +510,7 @@ public final class R {
         public static final int please_insert_actual_value=0x7f060006;
         public static final int pressure=0x7f060005;
         public static final int temp=0x7f060003;
-        public static final int tempdata=0x7f06000d;
+        public static final int tempdata=0x7f06000f;
         public static final int title_activity_calibrate=0x7f060008;
     }
     public static final class style {

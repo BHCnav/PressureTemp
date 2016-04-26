@@ -13,7 +13,10 @@
     <string name="cancle">取消</string>
     <string name="please_input_current_pressure">请输入当前气压值</string>
     <string name="please_input_current_temperature">请输入当前温度值</string>
-    <string name="TempValueAlert">输入值在 -273 ~ 273之间</string>
-    <string name="PressureValueAlert">输入值在 0 ~ 190000之间</string>
+    <string name="TempValueAlert">温度输入值在 -273 ~ 273之间</string>
+    <string name="PressureValueAlert">气压输入值在 0 ~ 190000之间</string>
+        <string name="getting_pressure">气压获取中...</string>
+    <string name="getting_altitude">高度获取中...</string>
+    <string name="getting_temp">温度获取中...</string>
 
 </resources>

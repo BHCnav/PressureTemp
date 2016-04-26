@@ -48,7 +48,7 @@
                     android:drawableRight="@drawable/pa48"
                     android:gravity="center"
                     android:paddingLeft="10dp"
-                    android:text="@string/pressure"
+                    android:text="@string/getting_pressure"
                     android:textSize="30sp" />
 
                 <TextView
@@ -87,7 +87,7 @@
                     android:drawablePadding="5dp"
                     android:drawableRight="@drawable/altitude48"
                     android:gravity="center"
-                    android:text="@string/altitude"
+                    android:text="@string/getting_altitude"
                     android:textSize="30sp" />
 
                 <TextView
@@ -126,7 +126,7 @@
                     android:drawablePadding="5dp"
                     android:drawableRight="@drawable/temp48"
                     android:gravity="center"
-                    android:text="@string/temp"
+                    android:text="@string/getting_temp"
                     android:textSize="30sp" />
             </LinearLayout>
         </RelativeLayout>
